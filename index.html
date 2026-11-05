@@ -184,6 +184,18 @@
       .brand .src { font-size: 12px; color: var(--ink-3); }
       .brand .src a { color: var(--amber); }
       .brand[hidden] { display: none; }
+      .tag.core { background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); }
+
+      /* ---------- portfolio roster ---------- */
+      .roster { margin-top: 16px; }
+      .roster .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 6px; }
+      .roster h4 { margin: 0 0 8px; font-size: 13px; font-family: "IBM Plex Mono", monospace; letter-spacing: .06em; color: var(--amber); }
+      .roster ul { margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-2); }
+      .roster li { padding: 4px 0; border-bottom: 1px dashed var(--line); }
+      .roster li:last-child { border-bottom: none; }
+      .roster li strong { color: var(--ink); }
+      .roster .gone { margin-top: 16px; font-size: 13.5px; color: var(--ink-2); background: var(--panel-2); border-radius: 10px; padding: 12px 14px; }
+      @media (max-width: 900px) { .roster .cols { grid-template-columns: 1fr; } }
 
       /* ---------- signals ---------- */
       .signal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -355,14 +367,20 @@
       <section id="brands">
         <div class="sec-head"><span class="sec-num">02</span><h2>Brand watch: where the cans are moving</h2></div>
         <p class="sec-sub">
-          Real brands, real numbers. Spirits-based RTDs ate the malt-seltzer boom; no-alcohol beer is compounding
-          at 20%+; and a billion-dollar THC drinks category is racing a federal deadline. Filter by lane.
+          Real brands, real numbers — now covering the full board: the Mexican import beers (Modelo, Corona, Pacifico),
+          the domestic majors, bottled spirits, and wine, alongside the RTD and no-alcohol lanes where the growth is.
+          <strong>Constellation Brands gets complete coverage</strong> — every beer, wine, and spirits brand it currently
+          carries is either carded below or listed in the portfolio roster at the end of this section, including the
+          brands it sold in 2025, flagged as sold so nothing is misattributed. Filter by lane.
           <strong>Read every brand figure as a total-market number</strong> — no published Gen-Z-only brand sales splits exist, so none are shown or implied here.
+          Where no hard public sales figure exists, the card states the brand's market role instead of inventing one.
         </p>
         <div class="toggle-row" role="group" aria-label="Filter brands by category">
           <button class="chip brand-filter" data-f="all" aria-pressed="true">All lanes</button>
           <button class="chip brand-filter" data-f="beer" aria-pressed="false">Beer</button>
           <button class="chip brand-filter" data-f="rtd" aria-pressed="false">RTD &amp; seltzer</button>
+          <button class="chip brand-filter" data-f="spirits" aria-pressed="false">Spirits</button>
+          <button class="chip brand-filter" data-f="wine" aria-pressed="false">Wine</button>
           <button class="chip brand-filter" data-f="na" aria-pressed="false">No / low alcohol</button>
           <button class="chip brand-filter" data-f="alt" aria-pressed="false">THC &amp; functional</button>
         </div>
@@ -445,6 +463,173 @@
             <p>Hard seltzer has shed roughly a third of its peak revenue since 2021 (BCG/NielsenIQ), and IWSR measured global seltzer volume down 10% across 2021–24 with a −5% CAGR forecast for 2023–28. The dollars didn't leave the cooler — they rotated into spirits-based RTDs and wine RTDs, which pushed the total RTD universe from ~10% to ~12% of off-premise alcohol sales.</p>
             <div class="src">Source: BCG, "Owning the Moment," May 2026 · <a href="https://www.bcg.com/publications/2026/owning-the-moment-wins-in-a-changing-alcohol-market" target="_blank" rel="noopener">link</a></div>
           </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Modelo Especial</h3><div class="owner">Constellation Brands (U.S. rights) · Mexican import lager</div></div><span class="tag core">CONSTELLATION</span></div>
+            <div class="stat">#1 <small>U.S. beer by dollar sales</small></div>
+            <p>The brand the whole import story runs on: Modelo Especial passed Bud Light in 2023 to become America's top-selling beer and still holds the dollar crown, even as Michelob Ultra edged it on volume (see above). The family around it — Modelo Negra, Modelo Oro, and the ~18M-case Modelo Chelada flavored line — is Constellation's flavor and premium ladder inside beer. In a shrinking beer market, the import lager occasion (food, gathering, premium-but-familiar) is the one holding up best.</p>
+            <div class="src">Sources: Constellation Brands company descriptions, 2026; Circana ranking context above · <a href="https://www.cbrands.com/blogs/press-releases/constellation-brands-announces-acquisition-of-spirit-based-ready-to-drink-brand-spikedade-1" target="_blank" rel="noopener">cbrands.com</a></div>
+          </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Corona Extra &amp; family</h3><div class="owner">Constellation Brands (U.S. rights) · Mexican import lager</div></div><span class="tag core">CONSTELLATION</span></div>
+            <div class="stat">Top 5 <small>U.S. beer by dollar sales</small></div>
+            <p>The other half of Constellation's import engine and one of the most recognized beer brands on earth. The family is the point for this tracker: Corona Premier (the low-carb, low-calorie line aimed squarely at the Michelob Ultra drinker), Corona Light, Corona Familiar, and Corona Non-Alcoholic — the NA extension that lets the brand sit inside zebra-striping occasions instead of losing them. Note the rights split: Constellation holds Corona in the U.S.; AB InBev holds it everywhere else.</p>
+            <div class="src">Source: Constellation Brands company descriptions, 2026 · <a href="https://www.cbrands.com/blogs/press-releases/constellation-brands-announces-acquisition-of-spirit-based-ready-to-drink-brand-spikedade-1" target="_blank" rel="noopener">cbrands.com</a></div>
+          </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Pacifico &amp; Victoria</h3><div class="owner">Constellation Brands (U.S. rights) · Mexican import lagers</div></div><span class="tag rising">RISING</span></div>
+            <p>Constellation's next tier down from Modelo/Corona — and the tier doing the growing. Pacifico has been the portfolio's breakout with younger, surf-and-outdoors-coded drinkers, and Victoria is the heritage Mexican lager behind it. These are the brands Constellation itself names as favorites alongside the two anchors in its current company description.</p>
+            <div class="src">Source: Constellation Brands company description, Aug 2026 release · <a href="https://ir.cbrands.com/news-events/press-releases/detail/343/constellation-brands-to-present-at-the-2026-barclays-global-consumer-conference-on-september-8-2026" target="_blank" rel="noopener">ir.cbrands.com</a></div>
+          </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Bud Light</h3><div class="owner">Anheuser-Busch InBev · domestic light lager</div></div><span class="tag holding">HOLDING</span></div>
+            <div class="stat">Top 3 <small>U.S. beer — the former #1</small></div>
+            <p>Still one of the biggest beers in America by any measure, but the direction is the story: Bud Light lost the #1 spot it held for two decades — first to Modelo Especial on dollars (2023), then watched Michelob Ultra take volume (2025). It is the clearest single-brand illustration of the domestic-light-to-import/premium-light rotation running through this whole page.</p>
+            <div class="src">Sources: Circana rankings as reported 2023–2025; Michelob Ultra ranking above</div>
+          </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Coors Light &amp; Miller Lite</h3><div class="owner">Molson Coors · domestic light lagers</div></div><span class="tag holding">HOLDING</span></div>
+            <div class="stat">Top 10 <small>both, U.S. beer volume</small></div>
+            <div class="stat" style="font-size:15px; font-weight:700; color:var(--ink-2);">Also tracked in this lane: Budweiser, Busch Light, Natural Light, Heineken lager, Stella Artois.</div>
+            <p>The other domestic-light pillars. They gained share during Bud Light's stumble, but they fish in the same shrinking pond: mainstream light lager is the segment IWSR's beer decline (−2% global, −6% U.S. in 2025) hits first, and neither brand owns a premium, import, or NA story the way their rivals now do.</p>
+            <div class="src">Source: IWSR category volumes, Jun 2026 (section 01)</div>
+          </article>
+
+          <article class="brand" data-cat="rtd">
+            <div class="b-top"><div><h3>Twisted Tea</h3><div class="owner">Boston Beer Co. · malt hard tea</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">#1 <small>hard tea in the U.S.</small></div>
+            <p>The quiet giant of the cooler: Twisted Tea dominates hard tea the way White Claw dominated seltzer — except tea kept growing while seltzer shrank, and spirits-based Surfside is now chasing it from above (see Surfside card). Boston Beer's other lane, Truly, sits in the cooling malt-seltzer card above.</p>
+            <div class="src">Source: Category context — BCG/NielsenIQ RTD data, May 2026 (seltzer card above)</div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>Tito's Handmade Vodka</h3><div class="owner">Tito's (independent) · vodka</div></div><span class="tag core">CATEGORY LEADER</span></div>
+            <div class="stat">#1 <small>vodka in U.S. off-premise dollars</small></div>
+            <p>The default American vodka — its off-premise dollar sales run roughly six times the #7 vodka's (Svedka, NIQ 52 weeks to Nov 2024). For Gen Z the relevance is the soda-and-lime serve: vodka is the base spirit of the "one clean drink" occasion, and Tito's is the bottle that occasion reaches for. Other vodka majors tracked: Smirnoff, Grey Goose, Absolut, Ketel One, New Amsterdam.</p>
+            <div class="src">Source: NielsenIQ via BevNET/3 Tier Beverages, Dec 2024 · <a href="https://newsletter.bevnet.com/subscriber/925ecd0b5fa64c3387b0bf1454277528" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>Don Julio &amp; Casamigos</h3><div class="owner">Diageo · premium tequila</div></div><span class="tag holding">PREMIUM CORE</span></div>
+            <div class="stat">Top tier <small>of U.S. premium tequila</small></div>
+            <p>The two names that turned tequila into the celebration spirit for younger drinkers — the bottle-service and gift-bottle end of agave. They anchor Diageo's tequila shelf alongside the wider premium wave (Patrón, Espolòn, Teremana, Clase Azul at the ultra end). The watch item: premium tequila is where the "fewer, richer occasions" math helps most — and where any slowdown in premiumization shows up first.</p>
+            <div class="src">Source: Category context — DISCUS 2025 briefing (spirits RTD card above); Diageo portfolio</div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>Jack Daniel's</h3><div class="owner">Brown-Forman · Tennessee whiskey</div></div><span class="tag core">CATEGORY LEADER</span></div>
+            <div class="stat">#1 <small>American whiskey brand worldwide</small></div>
+            <div class="stat" style="font-size:15px; font-weight:700; color:var(--ink-2);">Also tracked: Jameson (top Irish whiskey), Crown Royal (top Canadian whisky), Fireball (top flavored whisky), Jim Beam &amp; Maker's Mark, Bulleit.</div>
+            <p>Whiskey's global flagship and the benchmark every American-whiskey trend is measured against — including its own RTD line, which puts it in direct competition with the canned-cocktail growth in section 02. Whiskey overall sits inside the spirits volume decline (−3% global, −4% U.S. in 2025), so even the leader is defending occasions, not adding them.</p>
+            <div class="src">Source: IWSR category volumes, Jun 2026 (section 01)</div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>High West Whiskey</h3><div class="owner">Constellation Brands · American whiskey (Utah)</div></div><span class="tag core">CONSTELLATION</span></div>
+            <div class="stat">Craft core <small>of Constellation spirits</small></div>
+            <p>Constellation's whiskey anchor after its 2025 spirits clean-out — the Park City distillery brand (Double Rye, American Prairie, Campfire) it kept while selling Svedka to Sazerac and Copper &amp; Kings to Bourdon Spirits. Alongside Mi CAMPO and Casa Noble, High West is one of the handful of spirits names Constellation now puts in every company description.</p>
+            <div class="src">Sources: The Spirits Business, 2025–26 · <a href="https://www.thespiritsbusiness.com/2025/09/constellation-predicts-further-slump/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>Mi CAMPO &amp; Casa Noble</h3><div class="owner">Constellation Brands · tequila</div></div><span class="tag rising">CONSTELLATION · RISING</span></div>
+            <div class="stat">Growth pair <small>Constellation's tequila bet</small></div>
+            <p>The two tequilas Constellation kept and is pushing: Casa Noble, the premium organic name, and Mi CAMPO, the younger-skewing blanco/reposado that — with Kim Crawford — is one of the only two brands Constellation's FY27 earnings releases credit for wine-and-spirits growth. If Constellation has a Gen Z spirits story, this card is it.</p>
+            <div class="src">Sources: The Spirits Business, Jul 2026; Constellation FY27 earnings coverage · <a href="https://www.thespiritsbusiness.com/2026/07/wine-and-spirits-sales-rebound-in-constellation-q1/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="spirits">
+            <div class="b-top"><div><h3>Nelson's Green Brier &amp; Austin Cocktails</h3><div class="owner">Constellation Brands · Tennessee whiskey &amp; bottled cocktails</div></div><span class="tag holding">CONSTELLATION</span></div>
+            <div class="stat">Remainder <small>of the retained spirits shelf</small></div>
+            <p>The rest of what Constellation still carries in spirits after 2025: Nelson's Green Brier Tennessee whiskey and the Austin Cocktails bottled-RTD line. Small next to the beer business, but they complete the picture — post-divestiture Constellation spirits is five names: Mi CAMPO, Casa Noble, High West, Nelson's Green Brier, and Austin Cocktails, plus the SpikedAde RTD acquired Oct 2026 (roster below).</p>
+            <div class="src">Source: The Spirits Business, Sep 2025 · <a href="https://www.thespiritsbusiness.com/2025/09/constellation-predicts-further-slump/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>The Prisoner Wine Company</h3><div class="owner">Constellation Brands · Napa red blends</div></div><span class="tag cooling">CONSTELLATION · COOLING</span></div>
+            <div class="stat">−12% <small>U.S. depletions, 2025 (trade est.)</small></div>
+            <p>The flagship of Constellation's premium-only wine strategy — The Prisoner blend plus Unshackled, Saldo, and Harvey &amp; Harriet. The caution flag: trade analysis of 2025 depletions has the whole family down (Prisoner −12%, Saldo −12.6%, Unshackled −5%), which matters because wine is the weakest category on this page (−5% global, −6% U.S. volume in 2025) and premium red blends are where younger drinkers are scarcest.</p>
+            <div class="src">Source: Trade depletions analysis, Oct 2026 · <a href="https://distributorwineguide.wordpress.com/2026/10/08/two-hitters-dont-make-a-lineup-the-price-reality-check-on-constellations-wine-comeback/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>Kim Crawford</h3><div class="owner">Constellation Brands · New Zealand Sauvignon Blanc</div></div><span class="tag rising">CONSTELLATION · RISING</span></div>
+            <div class="stat">#1 <small>Sauvignon Blanc in the U.S. by dollars</small></div>
+            <p>The strongest wine card Constellation owns: the top-selling Sauvignon Blanc in America and — with Mi CAMPO — one of only two brands its FY27 earnings releases name as growth drivers, at roughly 1.75M cases. Crisp, cold, by-the-glass white is also the wine style that fits the "one deliberate drink" occasion best, which is why this brand is outperforming a declining wine category. Watch item: U.S. duties on New Zealand wine took effect in 2026.</p>
+            <div class="src">Sources: Wine Intelligence divestiture report, Jun 2025; trade analysis, Oct 2026 · <a href="https://wine-intelligence.com/blogs/wine-news-insights-wine-intelligence-trends-data-reports/constellation-brands-finalizes-divestment-of-mainstream-wines-sharpens-focus-on-premium-portfolio-vinovistara" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>Robert Mondavi Winery &amp; Schrader</h3><div class="owner">Constellation Brands · Napa Valley premium / luxury</div></div><span class="tag holding">CONSTELLATION</span></div>
+            <div class="stat">$15+ <small>the retained premium-only tier</small></div>
+            <p>Constellation's Napa heritage shelf: Robert Mondavi Winery (the estate brand — note its cheaper sibling, Robert Mondavi Private Selection, was sold to The Wine Group in 2025), Schrader Cellars, Double Diamond, Mount Veeder, and the To Kalon Vineyard Company. Prestige and margin, not youth volume — these are the brands the 2025 divestiture was designed to protect. Trade depletions analysis had Mondavi Winery down sharply in 2025, so the protection is not yet paying.</p>
+            <div class="src">Source: Wine Intelligence, Jun 2025 · <a href="https://wine-intelligence.com/blogs/wine-news-insights-wine-intelligence-trends-data-reports/constellation-brands-finalizes-divestment-of-mainstream-wines-sharpens-focus-on-premium-portfolio-vinovistara" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>Ruffino &amp; Lingua Franca</h3><div class="owner">Constellation Brands · Italy &amp; Oregon</div></div><span class="tag holding">CONSTELLATION</span></div>
+            <div class="stat">Prosecco + Pinot <small>the import / cool-climate pair</small></div>
+            <p>The rest of Constellation's retained wine map: Ruffino (Tuscan reds and Prosecco — Prosecco was its one growth line in 2025, while Italian wine exports to the U.S. fell under new tariffs) and Lingua Franca (Willamette Valley Pinot Noir and Chardonnay), plus My Favorite Neighbor / Booker from Paso Robles. Together with Kim Crawford and The Prisoner, this completes Constellation's current wine portfolio — full list in the roster below.</p>
+            <div class="src">Sources: Constellation company descriptions, 2026; trade analysis, Oct 2026 · <a href="https://www.cbrands.com/blogs/press-releases/constellation-brands-announces-acquisition-of-spirit-based-ready-to-drink-brand-spikedade-1" target="_blank" rel="noopener">cbrands.com</a></div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>Josh Cellars</h3><div class="owner">Deutsch Family Wine &amp; Spirits · California wine</div></div><span class="tag core">CATEGORY LEADER</span></div>
+            <div class="stat">Top seller <small>U.S. premium table wine</small></div>
+            <div class="stat" style="font-size:15px; font-weight:700; color:var(--ink-2);">Also tracked: La Marca Prosecco (Gallo), Barefoot (Gallo), Apothic (Gallo), 19 Crimes, Decoy, Kendall-Jackson.</div>
+            <p>If one non-Constellation wine brand belongs on every U.S. watch board, it's Josh — the accessible premium label that kept growing while the wine category shrank, powered by exactly the casual, name-you-can-remember, under-$20 positioning younger buyers default to. La Marca's Prosecco is the sparkling counterpart: celebration-format, by-the-glass friendly, and far more Gen Z-adjacent than still red wine.</p>
+            <div class="src">Source: Category context — IWSR wine volumes, Jun 2026 (section 01)</div>
+          </article>
+
+          <article class="brand" data-cat="wine">
+            <div class="b-top"><div><h3>Meiomi — sold by Constellation in 2025</h3><div class="owner">Now The Wine Group · California Pinot Noir (ex-Constellation)</div></div><span class="tag cooling">DIVESTED JUN 2025</span></div>
+            <div class="stat">~12M cases <small>sold as a group with 5 other brands</small></div>
+            <p>Included because it still shows up on Constellation lists everywhere — it shouldn't. In June 2025 Constellation sold Meiomi to The Wine Group with Woodbridge, Robert Mondavi Private Selection, Cook's, SIMI, and J. Rogét (~12M cases, ~$711M annual sales combined) to go premium-only in wine. Meiomi remains a major U.S. wine brand worth tracking — just under new ownership.</p>
+            <div class="src">Source: Wine Intelligence, Jun 2025 · <a href="https://wine-intelligence.com/blogs/wine-news-insights-wine-intelligence-trends-data-reports/constellation-brands-finalizes-divestment-of-mainstream-wines-sharpens-focus-on-premium-portfolio-vinovistara" target="_blank" rel="noopener">link</a></div>
+          </article>
+        </div>
+
+        <div class="card roster">
+          <h3>Constellation Brands — the complete current portfolio</h3>
+          <p class="card-sub">Everything Constellation carries today, per its own 2026 company descriptions — Rochester, NY; NYSE: STZ. U.S. beer rights are held exclusively and perpetually by Constellation; AB InBev markets Corona and Modelo outside the U.S.</p>
+          <div class="cols">
+            <div>
+              <h4>BEER (U.S.)</h4>
+              <ul>
+                <li><strong>Modelo Especial</strong> · Negra · Oro · Chelada</li>
+                <li><strong>Corona Extra</strong> · Premier · Light · Familiar · Non-Alcoholic</li>
+                <li><strong>Pacifico</strong></li>
+                <li><strong>Victoria</strong></li>
+                <li><strong>SpikedAde</strong> — spirits-based RTD acquired Oct 2026</li>
+              </ul>
+            </div>
+            <div>
+              <h4>WINE (PREMIUM, $15+)</h4>
+              <ul>
+                <li><strong>The Prisoner Wine Company</strong> — Prisoner · Unshackled · Saldo · Harvey &amp; Harriet</li>
+                <li><strong>Kim Crawford</strong> — New Zealand</li>
+                <li><strong>Robert Mondavi Winery</strong> · Schrader Cellars · Double Diamond · Mount Veeder · To Kalon</li>
+                <li><strong>Ruffino</strong> — Tuscany &amp; Prosecco</li>
+                <li><strong>Lingua Franca</strong> — Oregon · <strong>My Favorite Neighbor / Booker</strong> — Paso Robles</li>
+              </ul>
+            </div>
+            <div>
+              <h4>SPIRITS</h4>
+              <ul>
+                <li><strong>Mi CAMPO</strong> Tequila</li>
+                <li><strong>Casa Noble</strong> Tequila</li>
+                <li><strong>High West</strong> Whiskey</li>
+                <li><strong>Nelson's Green Brier</strong> Tennessee Whiskey</li>
+                <li><strong>Austin Cocktails</strong> — bottled RTDs</li>
+              </ul>
+            </div>
+          </div>
+          <p class="gone"><strong>No longer Constellation — sold in 2025:</strong> Svedka Vodka → Sazerac (Jan 2025) · Copper &amp; Kings brandy → Bourdon Spirits (Aug 2025) · Meiomi, Woodbridge, Robert Mondavi Private Selection, Cook's, SIMI, J. Rogét → The Wine Group (Jun 2025). Older lists that still credit these to Constellation are out of date.</p>
+          <p class="foot">Sources: Constellation Brands press releases &amp; company descriptions, 2026; Wine Intelligence divestiture report, Jun 2025; The Spirits Business divestiture coverage, 2025. <a href="https://www.cbrands.com/blogs/press-releases/constellation-brands-announces-acquisition-of-spirit-based-ready-to-drink-brand-spikedade-1" target="_blank" rel="noopener">cbrands.com</a></p>
         </div>
       </section>
 
@@ -662,6 +847,9 @@
           <li><span class="s-name">DISCUS — Annual Economic Briefing, 2025</span><span class="s-what">Spirits RTDs $3.8B, +16.4% in 2025, vs. total spirits −2.2%</span></li>
           <li><span class="s-name">TechSci Research — Adaptogenic Drinks Market</span><span class="s-what">Adaptogen drinks $1.88B (2025) → $3.07B (2031) forecast</span><a href="https://www.TechSciResearch.com/report/adaptogenic-drinks-market/26812.html" target="_blank" rel="noopener">techsciresearch.com</a></li>
           <li><span class="s-name">Penn State Extension — Alcoholic Beverage Trends 2026</span><span class="s-what">Cross-source trend roundup incl. Bacardi Cocktail Trends Report 2026</span><a href="https://extension.psu.edu/alcoholic-beverage-trends-2026" target="_blank" rel="noopener">extension.psu.edu</a></li>
+          <li><span class="s-name">Constellation Brands — Company Descriptions &amp; Press Releases, 2026</span><span class="s-what">Current portfolio: Corona/Modelo/Pacifico/Victoria beer; The Prisoner, Robert Mondavi Winery, Kim Crawford, Schrader, Lingua Franca wine; Mi CAMPO and High West spirits; SpikedAde acquisition (Oct 2026)</span><a href="https://www.cbrands.com/blogs/press-releases/constellation-brands-announces-acquisition-of-spirit-based-ready-to-drink-brand-spikedade-1" target="_blank" rel="noopener">cbrands.com</a> · <a href="https://ir.cbrands.com/news-events/press-releases/detail/343/constellation-brands-to-present-at-the-2026-barclays-global-consumer-conference-on-september-8-2026" target="_blank" rel="noopener">ir.cbrands.com</a></li>
+          <li><span class="s-name">Wine Intelligence — Constellation Divestment Report, Jun 2025</span><span class="s-what">Sale of Meiomi, Woodbridge, Robert Mondavi Private Selection, Cook's, SIMI, J. Rogét to The Wine Group; retained premium wine list; Kim Crawford #1 U.S. Sauvignon Blanc by dollars</span><a href="https://wine-intelligence.com/blogs/wine-news-insights-wine-intelligence-trends-data-reports/constellation-brands-finalizes-divestment-of-mainstream-wines-sharpens-focus-on-premium-portfolio-vinovistara" target="_blank" rel="noopener">wine-intelligence.com</a></li>
+          <li><span class="s-name">The Spirits Business — Constellation Coverage, 2025–26</span><span class="s-what">Retained spirits (Mi CAMPO, Casa Noble, High West, Nelson's Green Brier, Austin Cocktails); Svedka sale to Sazerac; Copper &amp; Kings sale; Q1 FY27 wine &amp; spirits rebound</span><a href="https://www.thespiritsbusiness.com/2026/07/wine-and-spirits-sales-rebound-in-constellation-q1/" target="_blank" rel="noopener">thespiritsbusiness.com</a> · <a href="https://www.thespiritsbusiness.com/2025/09/constellation-predicts-further-slump/" target="_blank" rel="noopener">divestitures</a></li>
         </ol>
         <div class="takeaway" style="border-left-color: var(--teal); background: var(--teal-soft); margin-top:22px;">
           <span class="t-lbl" style="color: var(--teal);">CLAIMS TO BE CAREFUL WITH</span>
@@ -675,7 +863,7 @@
     <footer>
       <div class="wrap">
         <p><strong>How to read this page:</strong> it's a dated snapshot, compiled Nov 5, 2026 (America/New_York) from the public sources listed above — not a live feed. Figures are reproduced as each source reported them; survey percentages from Gallup (U.S. adults) and IWSR Bevtrac (15-market panel of legal-drinking-age consumers) measure different populations and shouldn't be mixed. Ask for a refresh and the snapshot gets re-compiled with the newest releases.</p>
-        <p>Gen Z Alcohol Trends Tracker · Beverage-alcohol market intelligence · Snapshot v1 · Nov 5, 2026</p>
+        <p>Gen Z Alcohol Trends Tracker · Beverage-alcohol market intelligence · Snapshot v2 · Nov 5, 2026 · Brand coverage expanded: full Constellation Brands portfolio + spirits &amp; wine lanes</p>
       </div>
     </footer>
 
