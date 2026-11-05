@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Gen Z Alcohol Trends Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f6f6f3;
+        --panel: #ffffff;
+        --panel-2: #efefea;
+        --ink: #17191d;
+        --ink-2: #4c5158;
+        --ink-3: #7c828b;
+        --line: #dddcd4;
+        --amber: #b45309;
+        --amber-bright: #d97706;
+        --amber-soft: #fdf0dd;
+        --teal: #0f766e;
+        --teal-bright: #0d9488;
+        --teal-soft: #e0f2f0;
+        --red: #b3352c;
+        --red-soft: #fae7e4;
+        --green: #2e7d46;
+        --chart-grid: #e3e2da;
+        --radius: 14px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1114;
+          --panel: #171a1f;
+          --panel-2: #1e2229;
+          --ink: #eceade;
+          --ink-2: #b6b9ae;
+          --ink-3: #878d85;
+          --line: #2b3038;
+          --amber: #f0a13a;
+          --amber-bright: #f5b04c;
+          --amber-soft: #2c2113;
+          --teal: #3ec9b6;
+          --teal-bright: #2dd4bf;
+          --teal-soft: #122b28;
+          --red: #ef7d6e;
+          --red-soft: #2e1a17;
+          --green: #6fce8f;
+          --chart-grid: #262b33;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition: none !important; animation: none !important; }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- top strip ---------- */
+      .topstrip {
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+      }
+      .topstrip .wrap {
+        display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center;
+        padding-top: 10px; padding-bottom: 10px;
+      }
+      .snapshot-badge {
+        font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+        letter-spacing: .04em; color: var(--amber);
+        border: 1px solid var(--amber); border-radius: 999px; padding: 3px 10px;
+        white-space: nowrap;
+      }
+      .topstrip nav { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-left: auto; }
+      .topstrip nav a {
+        color: var(--ink-2); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      }
+      .topstrip nav a:hover { color: var(--amber); }
+
+      /* ---------- hero ---------- */
+      .hero { padding: 52px 0 10px; }
+      .hero h1 {
+        font-size: clamp(34px, 5.6vw, 58px); line-height: 1.04; font-weight: 900;
+        letter-spacing: -0.02em; margin: 0 0 16px; max-width: 15ch;
+      }
+      .hero h1 .hl { color: var(--amber); }
+      .hero .lede { font-size: clamp(16.5px, 2vw, 19px); color: var(--ink-2); max-width: 68ch; margin: 0 0 8px; }
+      .hero .lede strong { color: var(--ink); }
+
+      .kpis {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 30px 0 6px;
+      }
+      .kpi {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 18px 18px 14px;
+      }
+      .kpi .num { font-size: clamp(30px, 3.4vw, 40px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+      .kpi .num.down { color: var(--red); }
+      .kpi .num.up { color: var(--teal); }
+      .kpi .num.amber { color: var(--amber); }
+      .kpi .lbl { font-weight: 700; font-size: 14.5px; margin-top: 8px; }
+      .kpi .src { font-size: 12.5px; color: var(--ink-3); margin-top: 3px; }
+
+      /* ---------- sections ---------- */
+      section { padding: 42px 0 6px; }
+      .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+      .sec-num {
+        font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600;
+        color: var(--amber); border: 1px solid var(--line); background: var(--panel);
+        border-radius: 8px; padding: 2px 8px; white-space: nowrap;
+      }
+      h2 { font-size: clamp(24px, 3.4vw, 34px); font-weight: 800; letter-spacing: -0.015em; margin: 0; line-height: 1.15; }
+      .sec-sub { color: var(--ink-2); max-width: 72ch; margin: 8px 0 22px; }
+      .sec-sub strong { color: var(--ink); }
+
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+      .card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 22px;
+      }
+      .card h3 { margin: 0 0 4px; font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+      .card .card-sub { color: var(--ink-2); font-size: 14px; margin: 0 0 14px; }
+      .card .foot { font-size: 12.5px; color: var(--ink-3); margin-top: 14px; border-top: 1px dashed var(--line); padding-top: 10px; }
+      .card .foot a { color: var(--amber); }
+
+      .toggle-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+      .chip {
+        font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
+        border: 1px solid var(--line); background: var(--panel-2); color: var(--ink-2);
+        border-radius: 999px; padding: 7px 14px;
+      }
+      .chip:hover { border-color: var(--amber); color: var(--ink); }
+      .chip[aria-pressed="true"] { background: var(--amber); border-color: var(--amber); color: #fff; }
+      @media (prefers-color-scheme: dark) {
+        .chip[aria-pressed="true"] { color: #17130a; }
+      }
+      .chip:focus-visible, a:focus-visible { outline: 2px solid var(--amber-bright); outline-offset: 2px; }
+
+      .chart-box { width: 100%; }
+      .chart-box svg { display: block; width: 100%; height: auto; }
+      .axis-lbl { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; fill: var(--ink-3); }
+      .val-lbl { font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; fill: var(--ink); }
+      .cat-lbl { font-size: 13px; font-weight: 600; fill: var(--ink-2); }
+
+      .takeaway {
+        border-left: 4px solid var(--amber); background: var(--amber-soft);
+        border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin-top: 16px;
+      }
+      .takeaway p { margin: 0; font-size: 15.5px; }
+      .takeaway .t-lbl { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 600; letter-spacing: .08em; color: var(--amber); display: block; margin-bottom: 5px; }
+
+      /* ---------- brands ---------- */
+      .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .brand {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 18px; display: flex; flex-direction: column; gap: 6px;
+      }
+      .brand .b-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+      .brand h3 { margin: 0; font-size: 17.5px; font-weight: 800; }
+      .brand .owner { font-size: 12.5px; color: var(--ink-3); }
+      .tag {
+        font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600;
+        border-radius: 6px; padding: 3px 8px; white-space: nowrap;
+      }
+      .tag.rising { background: var(--teal-soft); color: var(--teal); }
+      .tag.cooling { background: var(--red-soft); color: var(--red); }
+      .tag.holding { background: var(--amber-soft); color: var(--amber); }
+      .brand .stat { font-size: 26px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.1; margin-top: 4px; }
+      .brand .stat small { font-size: 13px; font-weight: 700; color: var(--ink-2); letter-spacing: 0; }
+      .brand p { margin: 0; font-size: 14px; color: var(--ink-2); flex: 1; }
+      .brand .src { font-size: 12px; color: var(--ink-3); }
+      .brand .src a { color: var(--amber); }
+      .brand[hidden] { display: none; }
+
+      /* ---------- signals ---------- */
+      .signal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .signal {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 20px; display: flex; gap: 16px; align-items: flex-start;
+      }
+      .signal .s-num { font-size: 29px; font-weight: 900; color: var(--amber); line-height: 1; white-space: nowrap; min-width: 106px; }
+      .signal h3 { margin: 0 0 4px; font-size: 16.5px; font-weight: 800; }
+      .signal p { margin: 0; font-size: 14px; color: var(--ink-2); }
+      .signal .src { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+      .signal .src a { color: var(--amber); }
+      .meter { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+      .meter .m-lbl { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-3); letter-spacing: .05em; }
+      .meter .dots { display: flex; gap: 4px; }
+      .meter .dot { width: 22px; height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--line); }
+      .meter .dot.on { background: var(--amber); border-color: var(--amber); }
+
+      /* ---------- drivers ---------- */
+      .drivers { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
+      .driver { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 18px 20px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+      .driver:last-child { border-bottom: none; }
+      .driver .d-rank { font-size: 26px; font-weight: 900; color: var(--amber); line-height: 1.05; min-width: 32px; }
+      .driver .d-body { flex: 1; min-width: 210px; }
+      .driver h3 { margin: 0 0 3px; font-size: 16.5px; font-weight: 800; }
+      .driver p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+      .ev {
+        font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600;
+        padding: 3px 8px; border-radius: 6px; background: var(--panel-2); color: var(--ink-2);
+        white-space: nowrap; margin-top: 3px;
+      }
+      .ev.strong { background: var(--teal-soft); color: var(--teal); }
+      .ev.early { background: var(--red-soft); color: var(--red); }
+
+      /* ---------- watchlist ---------- */
+      .watch { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .watch-item {
+        background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px;
+      }
+      .watch-item .w-date {
+        font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600; color: var(--teal);
+      }
+      .watch-item .w-date.hot { color: var(--red); }
+      .watch-item h3 { margin: 6px 0 5px; font-size: 17px; font-weight: 800; }
+      .watch-item p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+      .watch-item .src { font-size: 12px; color: var(--ink-3); margin-top: 8px; }
+      .watch-item .src a { color: var(--amber); }
+
+      /* ---------- sources ---------- */
+      .sources { columns: 2; column-gap: 34px; margin: 4px 0 0; padding: 0; list-style: none; }
+      .sources li { break-inside: avoid; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+      .sources .s-name { font-weight: 700; }
+      .sources .s-what { color: var(--ink-2); display: block; font-size: 13px; }
+      .sources a { color: var(--amber); font-size: 12.5px; word-break: break-all; }
+
+      footer { border-top: 1px solid var(--line); margin-top: 46px; padding: 26px 0 40px; color: var(--ink-3); font-size: 13.5px; }
+      footer p { max-width: 78ch; margin: 0 0 8px; }
+
+      @media (max-width: 900px) {
+        .kpis { grid-template-columns: repeat(2, 1fr); }
+        .brand-grid { grid-template-columns: repeat(2, 1fr); }
+        .grid-2, .signal-grid, .watch { grid-template-columns: 1fr; }
+        .sources { columns: 1; }
+      }
+      @media (max-width: 560px) {
+        .brand-grid { grid-template-columns: 1fr; }
+        .signal { flex-direction: column; gap: 8px; }
+        .signal .s-num { min-width: 0; }
+        .hero { padding-top: 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topstrip">
+      <div class="wrap">
+        <span class="snapshot-badge">DATA SNAPSHOT · COMPILED NOV 5, 2026</span>
+        <nav>
+          <a href="#big-picture">The Big Picture</a>
+          <a href="#brands">Brand Watch</a>
+          <a href="#counter">The Counter-Narrative</a>
+          <a href="#signals">Social Signals</a>
+          <a href="#drivers">Drivers</a>
+          <a href="#watchlist">Watchlist</a>
+          <a href="#sources">Sources</a>
+        </nav>
+      </div>
+    </div>
+
+    <header class="hero">
+      <div class="wrap">
+        <h1>The generation that drinks <span class="hl">differently</span></h1>
+        <p class="lede">
+          U.S. drinking just hit its lowest level in the ~90 years Gallup has tracked it, and young adults are
+          leading the retreat — but the full picture is more useful than the headline. Gen Z hasn't quit drinking;
+          it has become <strong>selective, occasional, and format-driven</strong>: fewer occasions, fewer categories
+          per occasion, and a fast rotation into RTDs, no-alcohol beer, THC drinks, and functional alternatives.
+          This tracker compiles the sourced numbers behind that shift so the moves show up here before they show
+          up in your sales reports.
+        </p>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="num down">54%</div>
+            <div class="lbl">of U.S. adults say they drink</div>
+            <div class="src">Lowest in Gallup's trend since 1939 · down from 62% in 2023 · Gallup, Jul 2025</div>
+          </div>
+          <div class="kpi">
+            <div class="num down">50%</div>
+            <div class="lbl">of adults 18–34 say they drink</div>
+            <div class="src">Down from 72% in 2001–03 · now below older age groups for the first time · Gallup, 2025</div>
+          </div>
+          <div class="kpi">
+            <div class="num down">−2%</div>
+            <div class="lbl">global alcohol volume, 2025</div>
+            <div class="src">Third straight annual decline · ≈500M nine-litre cases gone · IWSR, Jun 2026</div>
+          </div>
+          <div class="kpi">
+            <div class="num up">+22%</div>
+            <div class="lbl">U.S. no-alcohol beer dollar sales</div>
+            <div class="src">$583M in 52 weeks to Dec 2025 · +24% in case volume · Circana</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+
+      <!-- ============ 01 BIG PICTURE ============ -->
+      <section id="big-picture">
+        <div class="sec-head"><span class="sec-num">01</span><h2>The big picture: less drinking, chosen deliberately</h2></div>
+        <p class="sec-sub">
+          Two datasets tell the core story. Gallup's U.S. survey shows participation falling off a cliff among
+          young adults, and IWSR's global volume data shows 2025 shrinking almost everywhere — with ready-to-drink
+          formats and no-alcohol beer the only green on the board.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Who still drinks in the U.S.?</h3>
+            <p class="card-sub">Share who say they drink alcohol. Toggle the audience — the young-adult line is the one breaking away.</p>
+            <div class="toggle-row" role="group" aria-label="Gallup chart audience">
+              <button class="chip" id="btn-young" aria-pressed="true">Adults 18–34</button>
+              <button class="chip" id="btn-all" aria-pressed="false">All adults</button>
+            </div>
+            <div class="chart-box" id="chart-gallup"></div>
+            <p class="foot">Source: Gallup Consumption Habits surveys. Young-adult long trend via Gallup's 2023 analysis (period averages 2001–03, 2021–23) and annual surveys 2023–2025. All-adult readings: 62% (2023), 58% (2024), 54% (2025). Drinkers also pour less: average drinks per week fell to 2.8 in 2025, from 3.8 in 2024. Corroborating federal data (NSDUH): past-month alcohol use ages 18–25 fell 50.9% → 47.5% from 2021 to 2024, and binge drinking fell 30.0% → 26.7%. <a href="https://news.gallup.com/poll/693362/drinking-rate-new-low-alcohol-concerns-surge.aspx" target="_blank" rel="noopener">Gallup, Aug 2025</a></p>
+          </div>
+
+          <div class="card">
+            <h3>Global category volumes</h3>
+            <p class="card-sub">Year-over-year volume change by category. Toggle between global 2025, the harder-hit U.S. market in 2025, and IWSR's ten-year global forecast.</p>
+            <div class="toggle-row" role="group" aria-label="Category chart period">
+              <button class="chip" id="btn-y2025" aria-pressed="true">Global 2025</button>
+              <button class="chip" id="btn-us2025" aria-pressed="false">U.S. 2025</button>
+              <button class="chip" id="btn-fcast" aria-pressed="false">2025–35 forecast</button>
+            </div>
+            <div class="chart-box" id="chart-cats"></div>
+            <p class="foot">Source: IWSR global data release, June 2026 (160 markets). 2025 global: total beverage alcohol −2%; RTDs the only major category in growth; spirits volume overtook wine for the first time since records began in 1990. U.S. 2025 was worse — total volume −5% (beer −6%, wine −6%, spirits −4%, RTD −1%). <a href="https://www.theiwsr.com/insight/a-major-reset-beverage-alcohol-volumes-fall-again-in-2025/?entry=9231918" target="_blank" rel="noopener">IWSR: "A major reset"</a></p>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="t-lbl">READ OF THE DATA</span>
+          <p>This is a <strong>volume problem, not just a youth problem</strong>. Every generation is moderating — IWSR found 75% of Gen Z no/low drinkers actively moderating, but also 74% of Millennials and 66% of Gen X. The money isn't disappearing; it's concentrating into fewer, more deliberate occasions — and the first (sometimes only) drink of the night is where the fight now happens.</p>
+        </div>
+      </section>
+
+      <!-- ============ 02 BRAND WATCH ============ -->
+      <section id="brands">
+        <div class="sec-head"><span class="sec-num">02</span><h2>Brand watch: where the cans are moving</h2></div>
+        <p class="sec-sub">
+          Real brands, real numbers. Spirits-based RTDs ate the malt-seltzer boom; no-alcohol beer is compounding
+          at 20%+; and a billion-dollar THC drinks category is racing a federal deadline. Filter by lane.
+          <strong>Read every brand figure as a total-market number</strong> — no published Gen-Z-only brand sales splits exist, so none are shown or implied here.
+        </p>
+        <div class="toggle-row" role="group" aria-label="Filter brands by category">
+          <button class="chip brand-filter" data-f="all" aria-pressed="true">All lanes</button>
+          <button class="chip brand-filter" data-f="beer" aria-pressed="false">Beer</button>
+          <button class="chip brand-filter" data-f="rtd" aria-pressed="false">RTD &amp; seltzer</button>
+          <button class="chip brand-filter" data-f="na" aria-pressed="false">No / low alcohol</button>
+          <button class="chip brand-filter" data-f="alt" aria-pressed="false">THC &amp; functional</button>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <h3>High Noon: the RTD rocket flattens</h3>
+          <p class="card-sub">Million nine-litre cases per year, U.S. — Gallo's vodka seltzer nearly tripled in three years, then fell ~3% in 2025, its first decline. It remains the #1 spirits brand by volume in the U.S.; the category leader plateauing is itself a signal.</p>
+          <div class="chart-box" id="chart-highnoon"></div>
+          <p class="foot">Source: The Spirits Business, Brand Champions 2026 (IWSR-based rankings). High Noon remains the largest spirits-based RTD brand in the U.S. <a href="https://www.thespiritsbusiness.com/2026/06/the-top-10-biggest-selling-rtd-brand-champions-2026/" target="_blank" rel="noopener">Brand Champions 2026</a></p>
+        </div>
+
+        <div class="brand-grid" id="brand-grid">
+          <article class="brand" data-cat="rtd">
+            <div class="b-top"><div><h3>Surfside</h3><div class="owner">Stateside Brands · spirits-based iced tea &amp; lemonade</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">10.6M <small>cases in 2025 · +127%</small></div>
+            <p>The fastest riser in RTDs — 1.3M cases (2023) → 4.7M (2024) → 10.6M (2025) — and now leads spirits-based hard tea/lemonade. Proof the growth rotated to tea and cocktail flavors, not away from cans.</p>
+            <div class="src">Source: The Spirits Business, Brand Champions 2026 · <a href="https://www.thespiritsbusiness.com/2026/06/the-top-10-biggest-selling-rtd-brand-champions-2026/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="rtd">
+            <div class="b-top"><div><h3>White Claw</h3><div class="owner">Mark Anthony Brands · malt hard seltzer</div></div><span class="tag holding">PIVOTING</span></div>
+            <div class="stat">~70% <small>of hard-seltzer dollars</small></div>
+            <p>Still the #1 flavored-alcohol family, with roughly 58% of global seltzer volume (and ~70% of U.S. hard-seltzer dollars by company reporting) — $711M+ in U.S. off-premise sales year-to-date through May 2025. But volume is slipping and the company is simplifying: phasing out Refresher, Surf, and its vodka-soda line, and pushing Zero Proof non-alcoholic seltzers.</p>
+            <div class="src">Source: Circana data via BevNET, Jun 2025 · <a href="https://www.bevnet.com/spirits/2025/mark-anthony-brands-phases-out-white-claw-vodka-soda-rebrands-zero-proof-line" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="rtd">
+            <div class="b-top"><div><h3>Cutwater</h3><div class="owner">Anheuser-Busch InBev · canned cocktails</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">6.5M <small>cases in 2025 · +61%</small></div>
+            <p>The growth end of canned cocktails. The lane behind it: spirits RTDs hit $3.8B in 2025, up 16.4% while total spirits fell 2.2% (DISCUS), and all RTDs together run ~$13.6–13.9B — roughly 12.5% of U.S. beverage-alcohol dollars (NielsenIQ). In-store RTD cocktail sales nearly doubled between 2022 and 2025 (BCG).</p>
+            <div class="src">Sources: The Spirits Business, Brand Champions 2026; DISCUS 2025 briefing; BCG/NielsenIQ · <a href="https://www.thespiritsbusiness.com/2026/06/the-top-10-biggest-selling-rtd-brand-champions-2026/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="na">
+            <div class="b-top"><div><h3>Athletic Brewing</h3><div class="owner">Independent · NA craft beer only</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">19–21% <small>of U.S. NA beer · ~52% of NA craft</small></div>
+            <p>The category's engine: second only to Heineken 0.0 in NA dollar sales, holding about half of the entire NA craft segment and driving roughly two-thirds of NA craft growth in 2025 — and four of every five NA craft beers poured on-premise are Athletic.</p>
+            <div class="src">Sources: NielsenIQ / Circana via Origlio Beverage &amp; Focal Points · <a href="https://www.origlio.com/blog/mvp-how-athletic-brewing-company-continues-to-triumph-in-the-non-alcoholic-arena/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="na">
+            <div class="b-top"><div><h3>Heineken 0.0</h3><div class="owner">Heineken · NA lager</div></div><span class="tag holding">HOLDING #1</span></div>
+            <div class="stat">#1 <small>NA beer in U.S. dollar sales</small></div>
+            <div class="stat" style="font-size:15px; font-weight:700; color:var(--ink-2);">Category context: NA beer is ~2% of global beer volume today; IWSR expects that share to double to 4% by 2033.</div>
+            <p>The big-brewer hedge is working: mainstream NA lagers from Heineken and Budweiser Zero are growing inside a total beer market that shrank 2% globally in 2025.</p>
+            <div class="src">Sources: Circana via Origlio; IWSR global release, Jun 2026 · <a href="https://drinksint.com/spirits-overtake-wine-in-total-global-volumes/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="na">
+            <div class="b-top"><div><h3>The NA shelf, total</h3><div class="owner">NA beer, wine &amp; spirits · U.S. off-premise</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">$925M <small>sales · +21.9% (NIQ, Aug 2025)</small></div>
+            <p>U.S. no-alcohol beer, wine &amp; spirits passed $1B in the 52 weeks to January 2026 in NielsenIQ scan data — with a crucial catch for alcohol brands: 92–94% of NA buyers also still buy alcoholic products. It's addition and alternation, not defection. Keep this ~$1B scan universe separate from IWSR's wider ~$5B-by-2028 U.S. no-alc estimate; they measure different things and never belong on the same chart line.</p>
+            <div class="src">Source: NielsenIQ, Aug 2025 · <a href="https://www.thefocalpoints.com/p/the-sober-shelf-a-running-account" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="alt">
+            <div class="b-top"><div><h3>THC drinks</h3><div class="owner">Cycling Frog · Wynk · Cann · Wana · Keef</div></div><span class="tag cooling">BINARY RISK</span></div>
+            <div class="stat">$1.1B <small>U.S. sales, 2024 · +25% forecast 2025</small></div>
+            <p>500–750 hemp-THC brands are chasing what Whitney Economics sizes as a $10–15B opportunity — only ~11% tapped. But read this as a risk, not a sure growth lane: a federal hemp redefinition signed in Nov 2025 threatens to ban most intoxicating hemp products when it takes effect Nov 12, 2026. See the Watchlist.</p>
+            <div class="src">Source: Whitney Economics via Shanken News Daily, Sep 2025 · <a href="https://www.shankennewsdaily.com/2025/09/23/38324/whitney-sees-potential-15b-market-for-thc-drinks/" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="alt">
+            <div class="b-top"><div><h3>Functional "feel-good" drinks</h3><div class="owner">Recess · Hiyo · Kin Euphorics · adaptogen &amp; nootropic sodas</div></div><span class="tag rising">RISING</span></div>
+            <div class="stat">$1.88B <small>adaptogen drinks market, 2025</small></div>
+            <p>The "buzz without the booze" lane: adaptogen drinks are forecast to reach $3.07B by 2031 (~8.5% CAGR), sold on calm/focus effects and stocked exactly where a beer used to be the default social drink.</p>
+            <div class="src">Source: TechSci Research, Adaptogenic Drinks Market report · <a href="https://www.TechSciResearch.com/report/adaptogenic-drinks-market/26812.html" target="_blank" rel="noopener">link</a></div>
+          </article>
+
+          <article class="brand" data-cat="beer">
+            <div class="b-top"><div><h3>Michelob Ultra</h3><div class="owner">Anheuser-Busch InBev · premium light lager</div></div><span class="tag rising">NOW #1</span></div>
+            <div class="stat">#1 <small>U.S. beer by volume, 52 wks to Sep 2025</small></div>
+            <p>The changing of the guard in big beer: Michelob Ultra passed Modelo Especial to become the top-selling beer in America by volume — a lighter, lower-calorie, active-lifestyle lager taking the crown from an import built on a different era's occasions.</p>
+            <div class="src">Source: Circana data reported Sep 2025 · <a href="https://extension.psu.edu/alcoholic-beverage-trends-2026" target="_blank" rel="noopener">trend roundup</a></div>
+          </article>
+
+          <article class="brand" data-cat="rtd">
+            <div class="b-top"><div><h3>Malt seltzer, as a lane</h3><div class="owner">White Claw · Truly · Bud Light Seltzer</div></div><span class="tag cooling">COOLING</span></div>
+            <div class="stat">−⅓ <small>of peak revenue lost</small></div>
+            <p>Hard seltzer has shed roughly a third of its peak revenue since 2021 (BCG/NielsenIQ), and IWSR measured global seltzer volume down 10% across 2021–24 with a −5% CAGR forecast for 2023–28. The dollars didn't leave the cooler — they rotated into spirits-based RTDs and wine RTDs, which pushed the total RTD universe from ~10% to ~12% of off-premise alcohol sales.</p>
+            <div class="src">Source: BCG, "Owning the Moment," May 2026 · <a href="https://www.bcg.com/publications/2026/owning-the-moment-wins-in-a-changing-alcohol-market" target="_blank" rel="noopener">link</a></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 03 COUNTER-NARRATIVE ============ -->
+      <section id="counter">
+        <div class="sec-head"><span class="sec-num">03</span><h2>The counter-narrative: Gen Z is coming of age, not opting out</h2></div>
+        <p class="sec-sub">
+          Before betting the company on abstinence, weigh IWSR's Bevtrac panel (32,000+ respondents, 15 markets).
+          As more of Gen Z reaches legal drinking age, its participation has been <strong>climbing toward the adult
+          norm</strong> — while the <em>shape</em> of each occasion shrinks. Both things are true at once, and the
+          strategy differs depending on which one you weight.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Gen Z participation is normalizing (15-market view)</h3>
+            <p class="card-sub">Past-6-month drinking participation among legal-drinking-age Gen Z — IWSR Bevtrac average across <strong>15 markets</strong>. Not the U.S.-only series: Bevtrac's U.S. read is different (46% → 70%) and is stated in the note below, never mixed into this chart.</p>
+            <div class="chart-box" id="chart-bevtrac"></div>
+            <p class="foot">Source: IWSR Bevtrac, Autumn 2025 wave, 15-market average. The gap vs. all adults in the same panel (77%) narrowed to 3 points — the smallest Bevtrac has recorded. Separate U.S.-only series from the same survey: Gen Z participation 46% (2023) → 70% (2025). <a href="https://www.theiwsr.com/insight/press-release/ahead-of-dry-january-gen-z-interest-in-monthlong-abstinence-stalls/" target="_blank" rel="noopener">IWSR press release, Dec 2025</a></p>
+          </div>
+          <div class="card">
+            <h3>But each occasion is getting smaller</h3>
+            <p class="card-sub">What changes when Gen Z does drink — the numbers behind "selective, not sober."</p>
+            <div class="chart-box" id="chart-occasion"></div>
+            <p class="foot">Sources: IWSR Bevtrac (cocktail participation and categories per occasion, Gen Z LDA, 15 markets; drinks per occasion is the all-drinker 15-market average, 2024 → H1 2026); BCG/NielsenIQ (Gen Z wallet share to RTD cocktails + seltzer/FMB, vs. ~8% for the average consumer and under 6% for Boomers). <a href="https://www.theiwsr.com/insight/six-key-drivers-shaping-beverage-alcohol-in-2026-and-beyond/" target="_blank" rel="noopener">IWSR: six drivers for 2026</a></p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <span class="t-lbl">SO WHAT FOR A BEV COMPANY</span>
+          <p>Plan for <strong>fewer, richer occasions</strong>: one or two drinks, chosen on flavor and format, often a cocktail or RTD, frequently alternated with something non-alcoholic. The losing position is undifferentiated volume — commodity beer and wine by the case. The winning positions in the data are premium RTDs, credible NA versions of flagship brands, and cocktail culture, where 84% of Gen Z drinkers already participate.</p>
+        </div>
+      </section>
+
+      <!-- ============ 04 SIGNALS ============ -->
+      <section id="signals">
+        <div class="sec-head"><span class="sec-num">04</span><h2>Signals from the social floor</h2></div>
+        <p class="sec-sub">
+          The behaviors bubbling up on TikTok, Reddit, and in bars — most pinned to a survey or sales dataset, with a
+          strength read on how hard it's biting. The purely cultural ones are labeled qualitative, not dressed up as
+          statistics. This is the early-warning layer: these are the patterns that show
+          up in feeds and forums months before they show up in scanner data.
+        </p>
+        <div class="signal-grid">
+          <div class="signal">
+            <div class="s-num">47%</div>
+            <div>
+              <h3>Zebra striping is normal now</h3>
+              <p>Nearly half of U.S. on-premise visitors already alternate alcoholic and non-alcoholic drinks within a single night out — moderation built into the occasion rather than announced. In the UK it's ~35% of 18–24 pub-goers.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+              <div class="src">Source: NielsenIQ on-premise research, early 2025 · <a href="https://rodgercuddington.substack.com/p/zebra-striping-a-comprehensive-analysis" target="_blank" rel="noopener">analysis</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">49%</div>
+            <div>
+              <h3>Half the country plans to drink less</h3>
+              <p>49% of Americans planned to drink less in 2025 — a 44% jump in that intention vs. 2023. Intent doesn't always become behavior, but intent at this scale is what fills NA shelf sets and mocktail menus.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+              <div class="src">Source: NCSolutions consumer survey · <a href="https://foodinstitute.com/focus/zebra-striping-gen-zs-strategy-for-moderating-alcohol-intake/" target="_blank" rel="noopener">Food Institute coverage</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">36%</div>
+            <div>
+              <h3>A third of Gen Z has never started</h3>
+              <p>36% of Gen Z consumers of legal drinking age have never consumed alcohol at all, and just 17% of drinkers drink weekly (down from 23% in 2020). The on-ramp itself is narrowing — first-drink brands matter more than ever.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+              <div class="src">Source: Euromonitor International, 2025 · <a href="https://dailyworld.in/tech/36-pc-gen-z-within-legal-drinking-age-have-never-consumed-alcohol-report-645186.html" target="_blank" rel="noopener">coverage</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">66%</div>
+            <div>
+              <h3>Health belief flipped in one generation</h3>
+              <p>Two-thirds of adults 18–34 now say even moderate drinking (1–2 drinks a day) is bad for your health — vs. 50% of 35–54 and 48% of 55+. This belief, turbocharged by the Surgeon General's cancer-risk advisory, is the engine under every other signal here.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+              <div class="src">Source: Gallup, Jul 2025 · <a href="https://www.ingredientsnetwork.com/alcohol-consumption-in-the-us-hits-a-record-low-news127838.html" target="_blank" rel="noopener">coverage</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">28%</div>
+            <div>
+              <h3>Dry January fatigue — moderation goes quiet</h3>
+              <p>Gen Z participation in monthlong abstinence slipped from 30% to 28% across 15 markets (UK: 33% → 24%). Performative all-or-nothing sobriety is fading; the durable behavior is low-key, year-round moderation — zebra striping, not pledges.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+              <div class="src">Source: IWSR Bevtrac, Autumn 2025 · <a href="https://www.theiwsr.com/insight/press-release/ahead-of-dry-january-gen-z-interest-in-monthlong-abstinence-stalls/" target="_blank" rel="noopener">IWSR</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">4%</div>
+            <div>
+              <h3>Gen Z is only 4% of sales — for now</h3>
+              <p>Gen Z (21+) accounted for just 4% of U.S. alcohol sales in 2025 vs. 25% Millennial and 70% Gen X + Boomer (Circana). Their current wallet is small; their influence on formats, flavors, and what's stocked is not. Watch the cohort age into spending power.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+              <div class="src">Source: Circana, 52 weeks to Dec 28, 2025 · <a href="https://thedailypour.com/article/gen-z-4-percent-alcohol-sales-2025/" target="_blank" rel="noopener">The Daily Pour</a></div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">1B+</div>
+            <div>
+              <h3>#mocktails is a media category now</h3>
+              <p>The #mocktails hashtag has passed a billion views on TikTok, and "hangxiety" — next-day anxiety after drinking — is now standard vocabulary in younger drinkers' feeds. This is cultural salience, not a sales statistic — but salience is what stocks menus and shelf sets a season later.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+              <div class="src">Qualitative signal · TikTok hashtag volume as reported in industry coverage, 2025–26</div>
+            </div>
+          </div>
+          <div class="signal">
+            <div class="s-num">$18–20</div>
+            <div>
+              <h3>What the forums keep saying</h3>
+              <p>Recurring themes across Reddit and drinking forums: bar cocktails at $18–20 push drinking home or into pre-gaming for economy, and hangover and sleep quality dominate the "why I cut back" threads. Themes, not statistics — but they rhyme with what the surveys measure.</p>
+              <div class="meter"><span class="m-lbl">SIGNAL</span><span class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+              <div class="src">Qualitative signal · recurring Reddit/forum themes flagged in the Nov 2026 research sweep</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 05 DRIVERS ============ -->
+      <section id="drivers">
+        <div class="sec-head"><span class="sec-num">05</span><h2>Why it's happening: the drivers, ranked by evidence</h2></div>
+        <p class="sec-sub">
+          Ranked by strength of evidence — not by how often each gets repeated in pitch decks. The top of this list
+          is measured in national surveys; the bottom is real but easy to overstate, and it's labeled that way.
+        </p>
+        <div class="drivers">
+          <div class="driver">
+            <span class="d-rank">1</span>
+            <div class="d-body"><h3>Health beliefs flipped</h3>
+            <p>53% of U.S. adults — and about two-thirds of 18–34s — now say one or two drinks a day is bad for your health (Gallup, 2025), amplified by the Surgeon General's cancer-risk advisory. This is the engine: nearly every other trend on this page moves with it.</p></div>
+            <span class="ev strong">STRONG EVIDENCE</span>
+          </div>
+          <div class="driver">
+            <span class="d-rank">2</span>
+            <div class="d-body"><h3>Cost and life stage</h3>
+            <p>Bar cocktails at $18–20, alcohol budgets shrinking even among high earners (IWSR Bevtrac, H1 2025), and a generation reaching milestones later on tighter money. When budgets pinch, the casual extra round is the first thing cut — and single-serve formats beat the $15 multipack.</p></div>
+            <span class="ev strong">STRONG EVIDENCE</span>
+          </div>
+          <div class="driver">
+            <span class="d-rank">3</span>
+            <div class="d-body"><h3>Phones and thinner social calendars</h3>
+            <p>Social life moved on-screen, so there are simply fewer default in-person occasions where drinking happens automatically. BCG's late-2025 consumer survey found drinking shifting away from big gatherings toward quiet moments alone or with one other person.</p></div>
+            <span class="ev">MODERATE EVIDENCE</span>
+          </div>
+          <div class="driver">
+            <span class="d-rank">4</span>
+            <div class="d-body"><h3>Moderation culture — and alternatives worth drinking</h3>
+            <p>Zebra striping (47% of on-premise visitors), a genuinely good NA shelf, and mocktail culture turned moderation into the path of least resistance. Crucially, the alternatives finally taste like a choice rather than a punishment.</p></div>
+            <span class="ev">MODERATE EVIDENCE</span>
+          </div>
+          <div class="driver">
+            <span class="d-rank">5</span>
+            <div class="d-body"><h3>Cannabis substitution — real, but bounded</h3>
+            <p>Substitution is real in subgroups and specific occasions, and THC drinks are a live category (see Brand Watch). But at population level the evidence is weak: Gallup notes U.S. marijuana use has been roughly flat for four years while drinking fell — substitution alone can't explain the drop.</p></div>
+            <span class="ev">REAL, OVERSTATED</span>
+          </div>
+          <div class="driver">
+            <span class="d-rank">6</span>
+            <div class="d-body"><h3>GLP-1 weight-loss drugs</h3>
+            <p>Early clinical evidence suggests GLP-1 medications can reduce alcohol intake, and Gen Z talks about them more openly than any other generation. But this is not yet a proven population-level driver for young drinkers. Watch the research — don't build the plan on it.</p></div>
+            <span class="ev early">EARLY EVIDENCE ONLY</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 06 WATCHLIST ============ -->
+      <section id="watchlist">
+        <div class="sec-head"><span class="sec-num">06</span><h2>Watchlist: dates that move this market</h2></div>
+        <p class="sec-sub">Upcoming checkpoints where the next trend read will come from — regulation first, then the recurring data drops.</p>
+        <div class="watch">
+          <div class="watch-item">
+            <span class="w-date hot">NOV 12, 2026 · DAYS AWAY</span>
+            <h3>Federal hemp-THC ban takes effect</h3>
+            <p>The Nov 2025 federal spending law redefined hemp with a 0.4mg total-THC-per-container cap that effectively bans most intoxicating hemp drinks when it takes effect Nov 12, 2026. A $1B+ category and 500–750 brands face a cliff — or a state-by-state patchwork. Expect consolidation, reformulation to compliant doses, and alcohol companies circling distressed THC brands.</p>
+            <div class="src">Source: Legal500 industry analysis · <a href="https://www.legal500.com/intelligence/united-states/cannabis-hemp/a-billion-dollar-trade-on-the-brink-how-to-save-the-hemp-beverage-industry" target="_blank" rel="noopener">link</a></div>
+          </div>
+          <div class="watch-item">
+            <span class="w-date">JANUARY 2027</span>
+            <h3>Dry January 2027 participation read</h3>
+            <p>IWSR Bevtrac's next abstinence wave will show whether Gen Z's monthlong-abstinence slide (30% → 28%) continues. A further drop confirms moderation has gone informal; a rebound would suggest the sober-curious moment has a second act.</p>
+            <div class="src">Source: IWSR Bevtrac tracking · <a href="https://www.theiwsr.com/insight/press-release/ahead-of-dry-january-gen-z-interest-in-monthlong-abstinence-stalls/" target="_blank" rel="noopener">link</a></div>
+          </div>
+          <div class="watch-item">
+            <span class="w-date">MID-2027</span>
+            <h3>IWSR's next global data release</h3>
+            <p>The June-cycle release will confirm whether global volume fell for a fourth straight year and how 2026 landed for RTDs vs. wine. IWSR's standing forecast: volumes keep declining until growth resumes around 2031, ending 2035 about 1% below 2025 — with U.S. servings down a forecast 18% over the decade.</p>
+            <div class="src">Source: IWSR forecast release, Jun 2026 · <a href="https://www.theiwsr.com/insight/press-release/global-beverage-alcohol-to-drop-further-before-recovering/" target="_blank" rel="noopener">link</a></div>
+          </div>
+          <div class="watch-item">
+            <span class="w-date">ONGOING · THROUGH 2033</span>
+            <h3>NA beer share of the beer market</h3>
+            <p>No-alcohol beer was the second-largest beer subcategory by volume in 2025 at ~2% of global beer. IWSR expects 4% by 2033 and sees no/low adding ~$4B in value by 2028; its wider U.S. no-alc universe reaches ~$5B by 2028 — a different measure from NielsenIQ's ~$1B scan total, and the two are kept separate on this page on purpose.</p>
+            <div class="src">Sources: IWSR; NielsenIQ via Forbes · <a href="https://drinksint.com/spirits-overtake-wine-in-total-global-volumes/" target="_blank" rel="noopener">link</a></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 07 SOURCES ============ -->
+      <section id="sources">
+        <div class="sec-head"><span class="sec-num">07</span><h2>Sources</h2></div>
+        <p class="sec-sub">Every figure on this page traces to one of these. Where sources disagree (Gallup's U.S. survey vs. IWSR's 15-market panel), both are shown rather than averaged — they ask different questions of different populations.</p>
+        <ol class="sources">
+          <li><span class="s-name">Gallup — Consumption Habits Survey, Jul 2025</span><span class="s-what">U.S. drinking rates: 54% all adults, 50% ages 18–34; 2.8 drinks/week; health-belief splits; marijuana use context</span><a href="https://news.gallup.com/poll/693362/drinking-rate-new-low-alcohol-concerns-surge.aspx" target="_blank" rel="noopener">news.gallup.com</a></li>
+          <li><span class="s-name">IWSR — Global Data Release, Jun 2026</span><span class="s-what">2025 global volumes by category; 2025–35 forecast; NA beer share outlook</span><a href="https://www.theiwsr.com/insight/a-major-reset-beverage-alcohol-volumes-fall-again-in-2025/?entry=9231918" target="_blank" rel="noopener">theiwsr.com</a></li>
+          <li><span class="s-name">IWSR — Bevtrac, Autumn 2025</span><span class="s-what">Gen Z participation 66% → 74%; abstinence slide; categories per occasion</span><a href="https://www.theiwsr.com/insight/press-release/ahead-of-dry-january-gen-z-interest-in-monthlong-abstinence-stalls/" target="_blank" rel="noopener">theiwsr.com</a></li>
+          <li><span class="s-name">IWSR — Six Key Drivers for 2026</span><span class="s-what">Gen Z behavior evolution; premiumization under price pressure</span><a href="https://www.theiwsr.com/insight/six-key-drivers-shaping-beverage-alcohol-in-2026-and-beyond/" target="_blank" rel="noopener">theiwsr.com</a></li>
+          <li><span class="s-name">BCG — "Owning the Moment," May 2026</span><span class="s-what">RTD in-store sales 2022–25; seltzer's lost third; Gen Z wallet share (NielsenIQ data)</span><a href="https://www.bcg.com/publications/2026/owning-the-moment-wins-in-a-changing-alcohol-market" target="_blank" rel="noopener">bcg.com</a></li>
+          <li><span class="s-name">The Spirits Business — Brand Champions 2026</span><span class="s-what">High Noon and Surfside case volumes, 2021–2025</span><a href="https://www.thespiritsbusiness.com/2026/06/the-top-10-biggest-selling-rtd-brand-champions-2026/" target="_blank" rel="noopener">thespiritsbusiness.com</a></li>
+          <li><span class="s-name">BevNET, Jun 2025</span><span class="s-what">White Claw share, sales, and portfolio pivot (Circana data)</span><a href="https://www.bevnet.com/spirits/2025/mark-anthony-brands-phases-out-white-claw-vodka-soda-rebrands-zero-proof-line" target="_blank" rel="noopener">bevnet.com</a></li>
+          <li><span class="s-name">Circana, 52 wks to Dec 2025</span><span class="s-what">NA beer $583M / +22%; generational share of U.S. alcohol sales</span><a href="https://www.thefocalpoints.com/p/the-sober-shelf-a-running-account" target="_blank" rel="noopener">thefocalpoints.com</a> · <a href="https://thedailypour.com/article/gen-z-4-percent-alcohol-sales-2025/" target="_blank" rel="noopener">thedailypour.com</a></li>
+          <li><span class="s-name">Whitney Economics — Hemp Beverage Report, Sep 2025</span><span class="s-what">THC drinks $1.1B sales, 500–750 brands, $10–15B potential</span><a href="https://www.shankennewsdaily.com/2025/09/23/38324/whitney-sees-potential-15b-market-for-thc-drinks/" target="_blank" rel="noopener">shankennewsdaily.com</a></li>
+          <li><span class="s-name">Legal500 — Hemp Beverage Industry Analysis, 2026</span><span class="s-what">Federal hemp redefinition; Nov 12, 2026 effective date</span><a href="https://www.legal500.com/intelligence/united-states/cannabis-hemp/a-billion-dollar-trade-on-the-brink-how-to-save-the-hemp-beverage-industry" target="_blank" rel="noopener">legal500.com</a></li>
+          <li><span class="s-name">Euromonitor International, 2025</span><span class="s-what">36% of Gen Z (LDA) never drank; weekly drinking 23% → 17%</span><a href="https://dailyworld.in/tech/36-pc-gen-z-within-legal-drinking-age-have-never-consumed-alcohol-report-645186.html" target="_blank" rel="noopener">dailyworld.in</a></li>
+          <li><span class="s-name">NCSolutions / NielsenIQ</span><span class="s-what">49% planned to drink less in 2025; zebra-striping prevalence; NA buyer overlap</span><a href="https://foodinstitute.com/focus/zebra-striping-gen-zs-strategy-for-moderating-alcohol-intake/" target="_blank" rel="noopener">foodinstitute.com</a></li>
+          <li><span class="s-name">NSDUH — National Survey on Drug Use and Health</span><span class="s-what">Ages 18–25: past-month use 50.9% → 47.5% and binge drinking 30.0% → 26.7%, 2021→2024</span></li>
+          <li><span class="s-name">DISCUS — Annual Economic Briefing, 2025</span><span class="s-what">Spirits RTDs $3.8B, +16.4% in 2025, vs. total spirits −2.2%</span></li>
+          <li><span class="s-name">TechSci Research — Adaptogenic Drinks Market</span><span class="s-what">Adaptogen drinks $1.88B (2025) → $3.07B (2031) forecast</span><a href="https://www.TechSciResearch.com/report/adaptogenic-drinks-market/26812.html" target="_blank" rel="noopener">techsciresearch.com</a></li>
+          <li><span class="s-name">Penn State Extension — Alcoholic Beverage Trends 2026</span><span class="s-what">Cross-source trend roundup incl. Bacardi Cocktail Trends Report 2026</span><a href="https://extension.psu.edu/alcoholic-beverage-trends-2026" target="_blank" rel="noopener">extension.psu.edu</a></li>
+        </ol>
+        <div class="takeaway" style="border-left-color: var(--teal); background: var(--teal-soft); margin-top:22px;">
+          <span class="t-lbl" style="color: var(--teal);">CLAIMS TO BE CAREFUL WITH</span>
+          <p style="margin-bottom:9px;"><strong>"Gen Z drinks 20% less than Millennials."</strong> A 2018-vintage figure still circulating in decks and articles. It is not a current measurement and shouldn't anchor a 2027 plan.</p>
+          <p style="margin-bottom:9px;"><strong>"Half of Gen Z doesn't drink."</strong> This conflates Gallup's 18–34 bracket (50% of U.S. 18–34s say they drink) with the whole of Gen Z. IWSR's legal-age Gen Z panel across 15 markets shows 74% participation. Different brackets, different questions, different answers — all three stated on this page with their labels attached.</p>
+          <p><strong>Generic hard-seltzer growth forecasts.</strong> Several market-report mills project healthy seltzer growth while IWSR's measured global seltzer volume fell 10% across 2021–24. When a forecast contradicts measured volume, trust the measurement.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <p><strong>How to read this page:</strong> it's a dated snapshot, compiled Nov 5, 2026 (America/New_York) from the public sources listed above — not a live feed. Figures are reproduced as each source reported them; survey percentages from Gallup (U.S. adults) and IWSR Bevtrac (15-market panel of legal-drinking-age consumers) measure different populations and shouldn't be mixed. Ask for a refresh and the snapshot gets re-compiled with the newest releases.</p>
+        <p>Gen Z Alcohol Trends Tracker · Beverage-alcohol market intelligence · Snapshot v1 · Nov 5, 2026</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+        var NS = "http://www.w3.org/2000/svg";
+        function el(name, attrs) {
+          var e = document.createElementNS(NS, name);
+          for (var k in attrs) e.setAttribute(k, attrs[k]);
+          return e;
+        }
+        function txt(parent, str) { parent.appendChild(document.createTextNode(str)); return parent; }
+
+        /* ---------- generic vertical bar chart ---------- */
+        function barChart(containerId, data, opts) {
+          var box = document.getElementById(containerId);
+          if (!box) return;
+          box.innerHTML = "";
+          var W = 560, H = 300, padL = 14, padR = 14, padT = 30, padB = 40;
+          var plotW = W - padL - padR, plotH = H - padT - padB;
+          var max = 0;
+          data.forEach(function (d) { if (d.v > max) max = d.v; });
+          var yMax = opts.yMax || Math.ceil(max / 10) * 10;
+          var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": opts.aria || "" });
+          // gridlines at 0, 25, 50, 75, 100% of yMax
+          for (var g = 0; g <= 4; g++) {
+            var gv = yMax * g / 4;
+            var gy = padT + plotH - (gv / yMax) * plotH;
+            svg.appendChild(el("line", { x1: padL, x2: W - padR, y1: gy, y2: gy, stroke: "var(--chart-grid)", "stroke-width": g === 0 ? 1.6 : 1 }));
+            var gl = txt(el("text", { x: padL, y: gy - 5, class: "axis-lbl" }), gv + (opts.unit || ""));
+            svg.appendChild(gl);
+          }
+          var slot = plotW / data.length;
+          var bw = Math.min(86, slot * 0.58);
+          data.forEach(function (d, i) {
+            var cx = padL + slot * i + slot / 2;
+            var h = (d.v / yMax) * plotH;
+            var y = padT + plotH - h;
+            var bar = el("rect", { x: cx - bw / 2, y: y, width: bw, height: Math.max(h, 1.5), rx: 5, fill: d.color || "var(--amber)" });
+            svg.appendChild(bar);
+            var vl = txt(el("text", { x: cx, y: y - 8, "text-anchor": "middle", class: "val-lbl" }), d.label || (d.v + (opts.unit || "")));
+            svg.appendChild(vl);
+            var cl = txt(el("text", { x: cx, y: H - 22, "text-anchor": "middle", class: "cat-lbl" }), d.x);
+            svg.appendChild(cl);
+            if (d.x2) {
+              var c2 = txt(el("text", { x: cx, y: H - 6, "text-anchor": "middle", class: "axis-lbl" }), d.x2);
+              svg.appendChild(c2);
+            }
+          });
+          box.appendChild(svg);
+        }
+
+        /* ---------- diverging horizontal chart ---------- */
+        function divergingChart(containerId, data, unit) {
+          var box = document.getElementById(containerId);
+          if (!box) return;
+          box.innerHTML = "";
+          var W = 560, rowH = 46, padT = 26, padB = 8;
+          var H = padT + data.length * rowH + padB;
+          var labelW = 118, plotW = W - labelW - 64;
+          var maxAbs = 0;
+          data.forEach(function (d) { maxAbs = Math.max(maxAbs, Math.abs(d.v)); });
+          var scaleMax = Math.ceil(maxAbs / 5) * 5;
+          var zeroX = labelW + plotW / 2;
+          var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Diverging bar chart of category volume change" });
+          // axis ticks
+          [-scaleMax, -scaleMax / 2, 0, scaleMax / 2, scaleMax].forEach(function (tv) {
+            var tx = zeroX + (tv / scaleMax) * (plotW / 2);
+            svg.appendChild(el("line", { x1: tx, x2: tx, y1: padT - 8, y2: H - padB, stroke: "var(--chart-grid)", "stroke-width": tv === 0 ? 1.6 : 1 }));
+            svg.appendChild(txt(el("text", { x: tx, y: 14, "text-anchor": "middle", class: "axis-lbl" }), (tv > 0 ? "+" : "") + tv + unit));
+          });
+          data.forEach(function (d, i) {
+            var cy = padT + i * rowH + rowH / 2;
+            var w = Math.abs(d.v) / scaleMax * (plotW / 2);
+            var x = d.v >= 0 ? zeroX : zeroX - w;
+            var color = d.color || (d.v >= 0 ? "var(--teal)" : "var(--red)");
+            svg.appendChild(el("rect", { x: x, y: cy - 11, width: Math.max(w, 2), height: 22, rx: 5, fill: color }));
+            var name = txt(el("text", { x: labelW - 10, y: cy + 4.5, "text-anchor": "end", class: "cat-lbl" }), d.c);
+            svg.appendChild(name);
+            var val = txt(el("text", {
+              x: d.v >= 0 ? x + w + 9 : x - 9, y: cy + 4.5,
+              "text-anchor": d.v >= 0 ? "start" : "end", class: "val-lbl"
+            }), (d.v > 0 ? "+" : "") + d.v + unit);
+            svg.appendChild(val);
+          });
+          box.appendChild(svg);
+        }
+
+        /* ---------- Gallup chart + toggle ---------- */
+        var gallupYoung = [
+          { x: "2001–03", x2: "period avg.", v: 72 },
+          { x: "2021–23", x2: "period avg.", v: 62 },
+          { x: "2023", v: 59 },
+          { x: "2025", v: 50, color: "var(--red)" }
+        ];
+        var gallupAll = [
+          { x: "2023", v: 62 },
+          { x: "2024", v: 58 },
+          { x: "2025", v: 54, color: "var(--red)" }
+        ];
+        function drawGallup(which) {
+          barChart("chart-gallup", which === "young" ? gallupYoung : gallupAll, {
+            yMax: 80, unit: "%",
+            aria: "Bar chart: share who say they drink alcohol, Gallup"
+          });
+        }
+        drawGallup("young");
+        var bY = document.getElementById("btn-young"), bA = document.getElementById("btn-all");
+        bY.addEventListener("click", function () {
+          bY.setAttribute("aria-pressed", "true"); bA.setAttribute("aria-pressed", "false"); drawGallup("young");
+        });
+        bA.addEventListener("click", function () {
+          bA.setAttribute("aria-pressed", "true"); bY.setAttribute("aria-pressed", "false"); drawGallup("all");
+        });
+
+        /* ---------- Category chart + toggle ---------- */
+        var cats2025 = [
+          { c: "No-alc beer", v: 8 },
+          { c: "RTDs", v: 3 },
+          { c: "Beer", v: -2 },
+          { c: "Spirits", v: -3 },
+          { c: "Wine", v: -5 }
+        ];
+        var catsFcast = [
+          { c: "RTDs", v: 17 },
+          { c: "Beer", v: -1 },
+          { c: "Spirits", v: -2 },
+          { c: "Wine", v: -14 }
+        ];
+        var catsUS = [
+          { c: "RTDs", v: -1 },
+          { c: "Spirits", v: -4 },
+          { c: "Total bev-alc", v: -5 },
+          { c: "Beer", v: -6 },
+          { c: "Wine", v: -6 }
+        ];
+        var catSets = { g2025: cats2025, us2025: catsUS, fcast: catsFcast };
+        function drawCats(key) { divergingChart("chart-cats", catSets[key], "%"); }
+        drawCats("g2025");
+        var catBtns = {
+          g2025: document.getElementById("btn-y2025"),
+          us2025: document.getElementById("btn-us2025"),
+          fcast: document.getElementById("btn-fcast")
+        };
+        Object.keys(catBtns).forEach(function (key) {
+          catBtns[key].addEventListener("click", function () {
+            Object.keys(catBtns).forEach(function (k) { catBtns[k].setAttribute("aria-pressed", k === key ? "true" : "false"); });
+            drawCats(key);
+          });
+        });
+
+        /* ---------- High Noon chart ---------- */
+        barChart("chart-highnoon", [
+          { x: "2021", v: 8.8, label: "8.8" },
+          { x: "2022", v: 16.4, label: "16.4" },
+          { x: "2023", v: 21.0, label: "21.0" },
+          { x: "2024", v: 24.7, label: "24.7" },
+          { x: "2025", v: 24.0, label: "24.0", color: "var(--red)" }
+        ], { yMax: 30, aria: "Bar chart: High Noon annual volume in million nine-litre cases" });
+
+        /* ---------- Bevtrac chart ---------- */
+        barChart("chart-bevtrac", [
+          { x: "Spring 2023", v: 66 },
+          { x: "Spring 2025", v: 73 },
+          { x: "Autumn 2025", v: 74, color: "var(--teal)" },
+          { x: "All adults", x2: "Autumn 2025", v: 77, color: "var(--ink-3)" }
+        ], { yMax: 100, unit: "%", aria: "Bar chart: Gen Z drinking participation across IWSR Bevtrac waves" });
+
+        /* ---------- Occasion chart (horizontal, single-direction) ---------- */
+        (function () {
+          var data = [
+            { c: "Drank a cocktail, past 6 months (Gen Z LDA)", v: 84, note: "84% — most of any generation" },
+            { c: "Gen Z wallet to RTD cocktails + seltzer/FMB", v: 14, note: "~14% vs ~8% avg consumer" },
+            { c: "Drinks per occasion, 2024 (all drinkers)", v: 44, note: "4.4 drinks" },
+            { c: "Drinks per occasion, H1 2026 (all drinkers)", v: 39, note: "3.9 drinks" },
+            { c: "Categories per occasion, 2023 (Gen Z)", v: 28, note: "2.8 categories" },
+            { c: "Categories per occasion, 2025 (Gen Z)", v: 18, note: "1.8 categories" }
+          ];
+          var box = document.getElementById("chart-occasion");
+          var W = 560, rowH = 48, padT = 8, H = padT + data.length * rowH + 4;
+          var barMax = W - 200;
+          var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Chart of how drinking occasions are changing" });
+          data.forEach(function (d, i) {
+            var cy = padT + i * rowH;
+            svg.appendChild(txt(el("text", { x: 0, y: cy + 13, class: "cat-lbl" }), d.c));
+            var w = (d.v / 100) * barMax;
+            svg.appendChild(el("rect", { x: 0, y: cy + 20, width: Math.max(w, 3), height: 14, rx: 4, fill: i < 2 ? "var(--amber)" : "var(--teal)" }));
+            svg.appendChild(txt(el("text", { x: Math.max(w, 3) + 9, y: cy + 31.5, class: "val-lbl" }), d.note));
+          });
+          box.appendChild(svg);
+        })();
+
+        /* ---------- Brand filter ---------- */
+        var filterBtns = document.querySelectorAll(".brand-filter");
+        var brandCards = document.querySelectorAll("#brand-grid .brand");
+        filterBtns.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            filterBtns.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+            btn.setAttribute("aria-pressed", "true");
+            var f = btn.getAttribute("data-f");
+            brandCards.forEach(function (card) {
+              card.hidden = !(f === "all" || card.getAttribute("data-cat") === f);
+            });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
